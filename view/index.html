@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>
+			LoggedOrNot
+		</title>
+		<script src="js/angular.min.js"></script>
+	</head>
+	<body ng-app="loggedornot">
+		<div ng-controller="loginController">
+			<button ng-click="fcLogin()">
+				<img src="res/fc_buttons/FCboutons-10.png">
+			</button>
+			
+			<button ng-click="logout()">
+				logout
+			</button>	
+		</div>
+		<script>
+         var app = angular.module("loggedornot", []);
+
+         app.config(['$locationProvider', function AppConfig($locationProvider) {
+            $locationProvider.html5Mode({
+              enabled: true,
+              requireBase: false
+            });
+         }]);
+         
+         var server = "localhost"
+         var port = "8080"
+         var host = "http://" + server + ":" + port
+         
+         app.controller('loginController', ["$scope", "$http", "$timeout", "$window", "$location", loginController]);
+
+         function loginController($scope, $http, $timeout, $window, $location) {
+            $scope.fcLogin = function() {
+                url = host + "/fcLogin"
+                $http.get(url).success( function(response) {
+                   console.log(response);
+                   $window.location.href = response.url;
+                });           
+            }
+
+            $scope.login = function(code) {
+               url = host + "/login?code=" + code
+                $http.get(url).success( function(response) {
+                   console.log(response);
+                }); 
+            }
+            
+            $scope.logout = function() {
+               url = host + "/logout"
+               $http.get(url).success( function(response) {
+                  $timeout(function() {
+                     console.log();
+                  });
+               });
+            }
+
+            $scope.getUser = function() {
+                url = host + "/getUser"
+                $http.get(url).success( function(response) {
+                    $scope.user = response;
+                    console.log($scope.user)                    
+                    if($scope.user === "null") {
+                        var code = $location.search().code;
+                        if(typeof code !== 'undefined') {
+                            $scope.login(code);
+                        }
+                    }
+               });       
+            }
+
+            $scope.getUser();
+         };
+      </script>
+	</body>
+</html>

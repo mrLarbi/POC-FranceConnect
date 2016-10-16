@@ -1,0 +1,9 @@
+{
+   "authorization_url":"https://fcp.integ01.dev-franceconnect.fr/api/v1/authorize",
+   "token_url":"https://fcp.integ01.dev-franceconnect.fr/api/v1/token",
+   "userinfo_url":"https://fcp.integ01.dev-franceconnect.fr/api/v1/userinfo",
+   "logout_url":"https://fcp.integ01.dev-franceconnect.fr/api/v1/logout",
+   
+   "request_uri": "http://localhost:8000",
+   "scope": "openid preferred_username birth email address phone"
+}
